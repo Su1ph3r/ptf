@@ -1,23 +1,23 @@
 #!/usr/bin/env python
 #####################################
-# Installation module for MeterSSH
+# Installation module for Snoopy-NG
 #####################################
 
 # AUTHOR OF MODULE NAME
-AUTHOR="David Kennedy (ReL1K)"
+AUTHOR="Dave Kennedy (HackingDave)"
 
 # DESCRIPTION OF THE MODULE
-DESCRIPTION="This module will install/update MeterSSH - a tool to use meterpreter over SSH"
+DESCRIPTION="This module will install/update Snoopy-NG - modular digital terrestrial tracking framework"
 
 # INSTALL TYPE GIT, SVN, FILE DOWNLOAD
 # OPTIONS = GIT, SVN, FILE
 INSTALL_TYPE="GIT"
 
 # LOCATION OF THE FILE OR GIT/SVN REPOSITORY
-REPOSITORY_LOCATION="https://github.com/trustedsec/meterssh"
+REPOSITORY_LOCATION="https://github.com/sensepost/snoopy-ng" 
 
 # WHERE DO YOU WANT TO INSTALL IT
-INSTALL_LOCATION="meterssh"
+INSTALL_LOCATION="snoopy-ng"
 
 # DEPENDS FOR DEBIAN INSTALLS
 DEBIAN="git"
@@ -26,6 +26,4 @@ DEBIAN="git"
 FEDORA="git"
 
 # COMMANDS TO RUN AFTER
-AFTER_COMMANDS=""
-
-
+AFTER_COMMANDS="cd {INSTALL_LOCATION},sh install.sh"

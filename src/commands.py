@@ -27,6 +27,8 @@ def after_commands(command, install_location):
                 if os.path.isdir(commands):
                     os.chdir(commands)
             else:                
+                # this is commented out for now because for some reason it removes stdout for prompts
+                #subprocess.Popen(commands, stderr=subprocess.PIPE, shell=True).wait()
                 subprocess.Popen(commands, shell=True).wait()
 
         # restore original directory
