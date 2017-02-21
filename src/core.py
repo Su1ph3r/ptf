@@ -110,7 +110,7 @@ def count_modules():
     return counter
 
 # version information
-grab_version = "1.11"
+grab_version = "1.13.1"
 
 # banner
 banner = bcolors.RED + r"""
@@ -221,12 +221,8 @@ def module_parser(filename, term):
         if counter == 0:
             filename_short = filename.replace(definepath() + "/", "")
             filename_short = filename_short.replace(".py", "")
-            if term != "BYPASS_UPDATE":
-                if term != "LAUNCHER":
-                    if filename_short != "install_update_all":
-                        if term != "X64_LOCATION":
-                              if not "__init__" in filename_short:
-                                if not "msfdb.sh" in filename_short:
+            if term not in "BYPASS_UPDATE|LAUNCHER|TOOL_DEPEND|X64_LOCATION|install_update_all|FEDORA|OPENBSD|ARCHLINUX":
+                              if filename_short not in "__init__|msfdb.sh":
                                         print_error("Warning, module %s was found but contains no %s field." % (filename_short, term))
                                         print_error("Check the module again for errors and try again.")
                                         print_error("Module has been removed from the list.")
@@ -260,19 +256,20 @@ def profile_os():
     # if we are running a debian variant
     if os.path.isfile("/usr/bin/apt-get"):
         return "DEBIAN"
+
     if os.path.isfile("/usr/bin/aptitude"):
         return "DEBIAN"
 
     if os.path.isfile("/etc/arch-release"):
         return "ARCHLINUX"
+
     if os.path.isfile("/etc/fedora-release"):
         return "FEDORA"
-    # will add support for more operating systems later
 
+    # will add support for more operating systems later
     # else use custom
     else:
         return "CUSTOM"
-
 
 # standard log write out
 def logging(log):
@@ -383,8 +380,8 @@ def launcher(filename, install_location):
                 # if we found filetype
                 if point != "":
                     filewrite = open("/usr/local/bin/" + launchers, "w")
-                    filewrite.write('#!/bin/sh\ncd %s\nchmod +x %s\n%s $*\n' %
-                                    (install_location, file_point, point))
+                    filewrite.write('#!/bin/sh\ncd %s\nfind %s -executable || chmod +x %s\n%s $*\n' %
+                                    (install_location, file_point, file_point, point))
                     filewrite.close()
                     subprocess.Popen("chmod +x /usr/local/bin/%s" %
                                      (launchers), shell=True).wait()
@@ -396,8 +393,6 @@ def launcher(filename, install_location):
                 break
 
 # search functionality here
-
-
 def search(term):
     term = term.replace("search ", "")
     module_files = []
@@ -470,14 +465,10 @@ def check_blank_dir(path):
                 subprocess.Popen("rm -rf %s" % (path), shell=True).wait()
 
 # do platform detection on 32 or 64 bit
-
-
 def arch():
     return str(platform.architecture()[0])
 
 # check to see if we are running kali linux
-
-
 def check_kali():
     if os.path.isfile("/etc/apt/sources.list"):
         kali = open("/etc/apt/sources.list", "r")
